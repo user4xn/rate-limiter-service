@@ -1,8 +1,6 @@
 # Rate Limiter Service
 
 A simple Rate Limiter designed for internal service-to-service communication, matched on (payment gateway architecture). This limiter ensures controlled traffic across internal APIs using Redis atomic operations for concurrency safety.
-
-## 🧠 Design Philosophy
 This rate limiter is built not to be accessed by end-users directly but by internal services that act as middleware.
 
 ## 🗺️ Architecture Flow
@@ -17,9 +15,6 @@ Summary:
 - `fixed-window:{client_id}:{route}:{window_timestamp}`
 6. Uses atomic INCR + EXPIRE to manage concurrent hits.
 7. If limit exceeded → response returns DENY but still wrapped in 200 OK (internal system compatibility).
-
-
-
 
 ## 🚀 Features
 
@@ -61,7 +56,6 @@ curl --location --request POST 'http://{your_address}/api/v1/rate/fixed-window' 
 --header 'X-Client-Id: {client_id}' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "client_id": "23124",
     "route": "/api/v1/transactions"
 }'
 ```
@@ -82,9 +76,19 @@ curl --location --request PUT 'http://{your_address}/api/v1/rate/fixed-window/se
 
 ```
 ---
-### 🧪 Running Locally
+### 🧪 How To Run
 Prerequisites:
-- Docker & Docker Compose
+- Docker & Docker Compose 
+
+Clone the project
+```bash
+git clone https://github.com/user4xn/rate-limiter-service.git
+```
+Then access the project `dir` in `rate-limiter-service` folder
+
+```bash
+
+```
 
 Start the service
 ```bash
@@ -93,6 +97,15 @@ docker-compose up -d --build
 
 The service will run at:
 `http://localhost:8080`
+
+Or if you want start service without docker
+
+```bash
+go run main.go
+```
+
+Require `go` and `redis` installed on your machine
+
 
 ---
 ### 🧪 Running Tests
