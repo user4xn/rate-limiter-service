@@ -2,8 +2,8 @@ package unittest
 
 import (
 	"context"
-	"net/http"
 	"rate-limiter/pkg/app/limiter"
+	"rate-limiter/pkg/constants"
 	"rate-limiter/pkg/dto"
 	"rate-limiter/pkg/factory"
 	"sync"
@@ -35,7 +35,7 @@ func TestFixedWindow(t *testing.T) {
 			},
 			expectedError: nil,
 			expectedResult: &dto.ResponseLimiter{
-				Status: http.StatusOK,
+				Status: string(constants.RateLimitStatusAllow),
 				Limit:  100,
 				Remain: 99,
 			},
@@ -49,7 +49,7 @@ func TestFixedWindow(t *testing.T) {
 			},
 			expectedError: nil,
 			expectedResult: &dto.ResponseLimiter{
-				Status: http.StatusTooManyRequests,
+				Status: string(constants.RateLimitStatusDeny),
 				Limit:  100,
 				Remain: 0,
 			},
@@ -161,9 +161,9 @@ func TestFixedWindow_Burst(t *testing.T) {
 			})
 			mu.Lock()
 			defer mu.Unlock()
-			if resp != nil && resp.Status == http.StatusOK {
+			if resp != nil && resp.Status == string(constants.RateLimitStatusAllow) {
 				successCount++
-			} else if resp != nil && resp.Status == http.StatusTooManyRequests {
+			} else if resp != nil && resp.Status == string(constants.RateLimitStatusDeny) {
 				failCount++
 
 			}

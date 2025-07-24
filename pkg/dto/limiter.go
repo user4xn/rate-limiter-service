@@ -7,10 +7,10 @@ type (
 	}
 
 	ResponseLimiter struct {
-		Status        int `json:"status"`
-		Limit         int `json:"limit"`
-		Remain        int `json:"remain"`
-		ResetInSecond int `json:"reset_in_second"`
+		Status        string `json:"status"`
+		Limit         int    `json:"limit"`
+		Remain        int    `json:"remain"`
+		ResetInSecond int    `json:"reset_in_second"`
 	}
 
 	ConfigClientRedis struct {

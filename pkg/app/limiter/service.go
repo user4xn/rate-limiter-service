@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/http"
+	"rate-limiter/pkg/constants"
 	"rate-limiter/pkg/dto"
 	"rate-limiter/pkg/factory"
 	"rate-limiter/pkg/repository"
@@ -86,7 +86,7 @@ func (s *service) FixedWindow(c context.Context, payload dto.PayloadLimiter) (*d
 			return nil, fmt.Errorf("failed to get TTL: %w", err)
 		}
 		res = dto.ResponseLimiter{
-			Status:        http.StatusTooManyRequests,
+			Status:        string(constants.RateLimitStatusDeny),
 			Limit:         limit,
 			Remain:        0,
 			ResetInSecond: int(ttl.Seconds()),
@@ -102,7 +102,7 @@ func (s *service) FixedWindow(c context.Context, payload dto.PayloadLimiter) (*d
 
 	// return available remain and TTL
 	res = dto.ResponseLimiter{
-		Status:        http.StatusOK,
+		Status:        string(constants.RateLimitStatusAllow),
 		Limit:         limit,
 		Remain:        limit - int(current),
 		ResetInSecond: int(ttl.Seconds()),
