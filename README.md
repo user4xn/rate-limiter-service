@@ -86,9 +86,11 @@ git clone https://github.com/user4xn/rate-limiter-service.git
 ```
 Then access the project `dir` in `rate-limiter-service` folder
 
+Setup .env file
 ```bash
-
+cp .env.example .env
 ```
+configure it match to your machine
 
 Start the service
 ```bash
@@ -109,7 +111,7 @@ Require `go` and `redis` installed on your machine
 
 ---
 ### 🧪 Running Tests
-Make sure have "GO" installed on your machine
+Make sure have `go` installed on your machine
 ```bash
 go run main.go test
 ```
